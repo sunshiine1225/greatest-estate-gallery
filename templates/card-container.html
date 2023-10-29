@@ -1,0 +1,34 @@
+{{ define "card" }}
+<div class='relative rounded-md border sm:max-w-xs overflow-clip shadow-md transition-all ease-out cursor-pointer bg-white'>
+    <div class='h-48 overflow-y-hidden'>
+        <div style="box-shadow: inset 0px -40px 40px 0px rgba(0, 0, 0, 0.8); background-image: url({{ .ImageUrl }});"
+            class="w-full h-full relative bg-cover">
+            <div class='text-white text-2xl font-bold absolute bottom-0 m-2'>₹{{ .LowerLimit }} - ₹{{ .UpperLimit }}
+            </div>
+        </div>
+    </div>
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor"
+        class="absolute right-4 top-40 w-14 h-14 bg-red-500 rounded-full p-2 text-white">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
+    </svg>
+    <div class='p-2 border-gray-50 text-gray-700'>
+        <div class='font-bold text-lg'>{{ .Name }}</div>
+        <div class='font-light'>{{ .Type }}</div>
+    </div>
+</div>
+{{ end }}
+
+{{ define "featured-container" }}
+{{ if not .PropertyThumbnails}}
+Nothing to show
+{{ else }}
+<div class="md:max-w-screen-md lg:max-w-screen-lg ml-auto mr-auto">
+    <div class="inline-block m-1 mb-2 text-2xl border-b-4 border-red-600 ">Featured Plots</div>
+    <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-x-3 gap-y-2">
+        {{ range .PropertyThumbnails }}
+        {{ template "card" . }}
+        {{ end }}
+    </div>
+</div>
+{{ end }}
+{{ end }}

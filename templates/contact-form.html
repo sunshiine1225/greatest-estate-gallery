@@ -1,0 +1,33 @@
+{{ define "contact-form" }}
+<form class="ml-auto mr-auto w-[450px] border-2 border-gray-100 p-4 bg-white" hx-post="/contact" hx-swap="none"
+    hx-on::after-request="this.reset()">
+    <div class="text-2xl font-bold text-center">We would like to hear from you!</div>
+    <div class="w-full">
+        <div class="flex justify-between my-2 flex-col">
+            <label class="pb-1 required">Email</label>
+            <input required type="email" name="email" placeholder="jane.doe@gmail.com"
+                class="border-gray-400 border-b-2 rounded-sm p-1 outline-none hover:border-gray-600 transition-colors placeholder:text-gray-400" />
+        </div>
+        <div class="flex justify-between my-2 flex-col">
+            <label class="pb-1 required">Name</label>
+            <input required
+                class="border-gray-400 border-b-2 rounded-sm p-1 outline-none hover:border-gray-600 transition-colors placeholder:text-gray-400"
+                type="text" name="name" placeholder="Jane Doe" />
+        </div>
+        <div class="flex justify-between my-2 flex-col">
+            <label class="pb-1 required">Subject</label>
+            <input required placeholder="Request for property"
+                class="border-gray-400 border-b-2 rounded-sm p-1 outline-none hover:border-gray-600 transition-colors placeholder:text-gray-400"
+                type="text" name="subject" />
+        </div>
+
+        <div class="flex justify-between my-2 flex-col">
+            <label class="pb-1 required">Message</label>
+            <textarea required type="text" name="message" placeholder="Enter message here..."
+                class="resize-none border-gray-400 border-2 h-24 rounded-sm p-1 outline-none hover:border-gray-600 transition-colors placeholder:text-gray-400"></textarea>
+        </div>
+        <button
+            class="text-center text-white font-semibold rounded-full px-5 py-2 bg-red-600 mt-4 cursor-pointer w-full">Submit</button>
+    </div>
+</form>
+{{ end }}
