@@ -27,7 +27,8 @@
 </head>
 
 <body class="bg-gray-200">
-    {{ template "featured-container" . }} 
+    <div hx-trigger="load" hx-get="/section/featured-container" hx-swap="outerHTML">
+    </div>
     {{ template "contact-form" . }}
 </body>
 

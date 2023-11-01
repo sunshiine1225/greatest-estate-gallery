@@ -31,7 +31,7 @@ type PropertyThumbnail struct {
 var (
 	SANITY_PROJECT_ID string
 	DATASET           string
-    SANITY_AUTH_TOKEN string
+	SANITY_AUTH_TOKEN string
 )
 
 func init() {
@@ -42,7 +42,7 @@ func init() {
 
 	SANITY_PROJECT_ID = os.Getenv("SANITY_PROJECT_ID")
 	DATASET = os.Getenv("SANITY_DATASET")
-    SANITY_AUTH_TOKEN = os.Getenv("SANITY_AUTH_TOKEN")
+	SANITY_AUTH_TOKEN = os.Getenv("SANITY_AUTH_TOKEN")
 }
 
 func propertyThumbnailsGet() []PropertyThumbnail {
@@ -57,10 +57,9 @@ func propertyThumbnailsGet() []PropertyThumbnail {
 
 	endpoint := fmt.Sprintf(`https://%s.api.sanity.io/v2021-10-21/data/query/%s?query=%s`, SANITY_PROJECT_ID, DATASET, query)
 
-    request, _ := http.NewRequest("GET", endpoint, bytes.NewBuffer([]byte{}))
-    request.Header.Set("Authorization", fmt.Sprintf("Bearer %s", SANITY_AUTH_TOKEN))
-    resp, err := http.DefaultClient.Do(request)
-
+	request, _ := http.NewRequest("GET", endpoint, bytes.NewBuffer([]byte{}))
+	request.Header.Set("Authorization", fmt.Sprintf("Bearer %s", SANITY_AUTH_TOKEN))
+	resp, err := http.DefaultClient.Do(request)
 	if err != nil {
 		return []PropertyThumbnail{}
 	}
@@ -82,14 +81,22 @@ func propertyThumbnailsGet() []PropertyThumbnail {
 	return propertyThumbnails
 }
 
-func Homepage(w http.ResponseWriter, r *http.Request) {
-	tmpl := template.Must(template.ParseFiles("./templates/index.html", "./templates/card-container.html", "./templates/contact-form.html"))
+func FeaturedContainer(w http.ResponseWriter, r *http.Request) {
+	tmpl := template.Must(template.ParseFiles("./templates/featured-container.html"))
 
 	w.WriteHeader(http.StatusOK)
 
 	tmpl.Execute(w, struct {
 		PropertyThumbnails []PropertyThumbnail
 	}{propertyThumbnailsGet()})
+}
+
+func Homepage(w http.ResponseWriter, r *http.Request) {
+	tmpl := template.Must(template.ParseFiles("./templates/index.html", "./templates/contact-form.html"))
+
+	w.WriteHeader(http.StatusOK)
+
+	tmpl.Execute(w, nil)
 }
 
 func ContactPost(w http.ResponseWriter, r *http.Request) {
@@ -104,7 +111,8 @@ func main() {
 	r := mux.NewRouter()
 	r.HandleFunc("/", Homepage).Methods(http.MethodGet)
 	r.HandleFunc("/contact", ContactPost).Methods(http.MethodPost)
-    r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
+	r.HandleFunc("/section/featured-container", FeaturedContainer).Methods(http.MethodGet)
+	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 
 	http.ListenAndServe(":8000", r)
 }

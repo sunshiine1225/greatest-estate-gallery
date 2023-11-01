@@ -1,5 +1,6 @@
 {{ define "card" }}
-<div class='relative rounded-md border sm:max-w-xs overflow-clip shadow-md transition-all ease-out cursor-pointer bg-white'>
+<div
+    class='relative rounded-md border sm:max-w-xs overflow-clip shadow-md transition-all ease-out cursor-pointer bg-white'>
     <div class='h-48 overflow-y-hidden'>
         <div style="box-shadow: inset 0px -40px 40px 0px rgba(0, 0, 0, 0.8); background-image: url({{ .ImageUrl }});"
             class="w-full h-full relative bg-cover">
@@ -18,7 +19,6 @@
 </div>
 {{ end }}
 
-{{ define "featured-container" }}
 {{ if not .PropertyThumbnails}}
 Nothing to show
 {{ else }}
@@ -30,5 +30,4 @@ Nothing to show
         {{ end }}
     </div>
 </div>
-{{ end }}
 {{ end }}
