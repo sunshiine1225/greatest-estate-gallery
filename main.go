@@ -19,15 +19,6 @@ type SanityResult struct {
 	Result json.RawMessage `json:"result"`
 }
 
-type PropertyThumbnail struct {
-	Name       string  `json:"name"`
-	Type       string  `json:"type"`
-	ImageUrl   string  `json:"image_url"`
-	LowerLimit float64 `json:"lower_limit"`
-	UpperLimit float64 `json:"upper_limit"`
-	Id         string  `json:"id"`
-}
-
 var (
 	SANITY_PROJECT_ID string
 	DATASET           string
@@ -45,15 +36,8 @@ func init() {
 	SANITY_AUTH_TOKEN = os.Getenv("SANITY_AUTH_TOKEN")
 }
 
-func propertyThumbnailsGet() []PropertyThumbnail {
-	query := url.QueryEscape(`*[_type == 'property'] {
-  'name': property_name,
-  'type': type,
-  'lower_limit': price_range.lower_limit,
-  'upper_limit': price_range.upper_limit,
-  'image_url': images[0].asset->url,
-  'id': _id
-} | order(_createdAt) [0...6]`)
+func sanityQuery(query string) (SanityResult, error) {
+	query = url.QueryEscape(query)
 
 	endpoint := fmt.Sprintf(`https://%s.api.sanity.io/v2021-10-21/data/query/%s?query=%s`, SANITY_PROJECT_ID, DATASET, query)
 
@@ -61,34 +45,62 @@ func propertyThumbnailsGet() []PropertyThumbnail {
 	request.Header.Set("Authorization", fmt.Sprintf("Bearer %s", SANITY_AUTH_TOKEN))
 	resp, err := http.DefaultClient.Do(request)
 	if err != nil {
-		return []PropertyThumbnail{}
+		return SanityResult{}, nil
 	}
 
 	var response SanityResult
 	err = json.NewDecoder(resp.Body).Decode(&response)
 	if err != nil {
-		fmt.Println(err.Error())
-		return []PropertyThumbnail{}
+		return SanityResult{}, err
+	}
+
+	return response, nil
+}
+
+func Properties(w http.ResponseWriter, r *http.Request) {
+	tmpl := template.Must(template.ParseFiles("./templates/featured-container.html"))
+
+	resp, _ := sanityQuery(`*[_type == 'property'] {
+  'name': property_name,
+  'type': type,
+  'lower_limit': lower_limit,
+  'upper_limit': upper_limit,
+  'image_url': images[0].asset->url,
+  'area': location.area,
+  'city': location.city,
+  'id': _id
+} | order(_createdAt) [0...6]`)
+
+	type PropertyThumbnail struct {
+		Name       string `json:"name"`
+		Type       string `json:"type"`
+		ImageUrl   string `json:"image_url"`
+		LowerLimit struct {
+			LowerLimitPrice float64 `json:"lower_limit_price"`
+			Denomination    string  `json:"denomination"`
+		} `json:"lower_limit"`
+		UpperLimit struct {
+			UpperLimitPrice float64 `json:"upper_limit_price"`
+			Denomination    string  `json:"denomination"`
+		} `json:"upper_limit"`
+		Area string `json:"area"`
+		City string `json:"city"`
+		Id   string `json:"id"`
 	}
 
 	var propertyThumbnails []PropertyThumbnail
-	err = json.Unmarshal(response.Result, &propertyThumbnails)
-	if err != nil {
-		fmt.Println(err.Error())
-		return []PropertyThumbnail{}
-	}
-
-	return propertyThumbnails
-}
-
-func FeaturedContainer(w http.ResponseWriter, r *http.Request) {
-	tmpl := template.Must(template.ParseFiles("./templates/featured-container.html"))
+	_ = json.Unmarshal(resp.Result, &propertyThumbnails)
 
 	w.WriteHeader(http.StatusOK)
-
 	tmpl.Execute(w, struct {
 		PropertyThumbnails []PropertyThumbnail
-	}{propertyThumbnailsGet()})
+	}{propertyThumbnails})
+}
+
+func ResaleProperties(w http.ResponseWriter, r *http.Request) {
+}
+
+func FeaturedPlots(w http.ResponseWriter, r *http.Request) {
 }
 
 func Homepage(w http.ResponseWriter, r *http.Request) {
@@ -111,7 +123,7 @@ func main() {
 	r := mux.NewRouter()
 	r.HandleFunc("/", Homepage).Methods(http.MethodGet)
 	r.HandleFunc("/contact", ContactPost).Methods(http.MethodPost)
-	r.HandleFunc("/section/featured-container", FeaturedContainer).Methods(http.MethodGet)
+	r.HandleFunc("/section/featured-container", Properties).Methods(http.MethodGet)
 	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 
 	http.ListenAndServe(":8000", r)
