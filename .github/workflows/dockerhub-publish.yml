@@ -2,6 +2,7 @@ name: Publish Image to Dockerhub
 on:
   release:
     types: [published]
+  workflow_dispatch:
 jobs:
   push_to_registry:
     runs-on: ubuntu-latest
