@@ -1,0 +1,51 @@
+{{ define "card" }}
+<div
+    class="card grid grid-cols-3 col-span-1 max-h-42 border border-gray-200 rounded-lg overflow-hidden cursor-pointer hover:shadow-lg transition ease-in">
+
+    <div class="image overflow-hidden col-span-1 bg-100% bg-center relative w-full h-full"
+        style="background-image: url({{ .ImageUrl }});"></div>
+    <div class="col-span-2 p-2">
+        <div class='font-bold text-xl'>{{ .Name }}</div>
+        <div class="font-[500] text-slate-400 flex items-center">
+            <div class="inline-block h-4 w-4 mr-1">
+                <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"></path>
+                </svg>
+            </div>
+            {{ .Area }}, {{ .City }}
+        </div>
+        <div class="flex items-center space-x-2 pb-2 font-semibold">
+            <div class="h-4 w-4 text-green-400" style="transform: rotate(45deg);">
+                <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15">
+                    </path>
+                </svg>
+            </div>
+            <div class="text-black">{{ .Sizes.LowerLimit }} - {{ .Sizes.UpperLimit }} (sq. ft.)</div>
+        </div>
+        <hr>
+        <div class="mt-2 font-bold">
+            ₹ {{ .Price.LowerLimit }} - {{ .Price.UpperLimit }}
+        </div>
+    </div>
+</div>
+{{ end }}
+{{ if not .PlotThumbnails }}
+Nothing to show
+{{ else }}
+<div class="md:max-w-[800px] lg:max-w-[1200px] mx-5 md:mx-auto py-4">
+    <div class="relative inline-block m-1 mb-4 text-2xl font-[500]">Featured <span class="text-green-400">Plots</span>
+        <span class="absolute -bottom-1 left-0 w-16 h-1 bg-red-500 rounded-md"></span>
+    </div>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-4">
+        {{ range .PlotThumbnails }}
+        {{ template "card" . }}
+        {{ end }}
+    </div>
+</div>
+{{ end }}

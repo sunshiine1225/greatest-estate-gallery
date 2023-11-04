@@ -1,5 +1,7 @@
+import project from './project'
 import property from './property'
+import plot from './plot'
 
 export const schemaTypes = [
-    property
+    project, property, plot
 ]

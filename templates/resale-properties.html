@@ -1,0 +1,86 @@
+{{ define "card" }}
+<div class="card grid grid-cols-3 max-h-42 border border-gray-200 rounded-lg overflow-hidden cursor-pointer hover:shadow-lg transition ease-in">
+    <div class="image overflow-hidden col-span-1 bg-100% bg-center relative w-full h-full"
+        style="background-image: url({{ .ImageUrl }});">
+        <div class="absolute top-2 left-2 py-1 px-2 bg-red-500 text-white text-sm rounded-md">
+            For Sale
+        </div>
+    </div>
+    <div class="col-span-2 p-3">
+        <div class="text-sm font-[500] tracking-wider text-green-400">Apartments</div>
+        <div class='font-bold text-xl'>{{ .Name }}</div>
+        <div class="mt-1 font-[500] text-slate-400 flex items-center">
+            <div class="inline-block h-4 w-4 mr-1">
+                <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"></path>
+                </svg>
+            </div>
+            {{ .Area }}, {{ .City }}
+        </div>
+        <hr>
+        <div class="flex">
+            <div class="flex items-center space-x-2 font-semibold">
+                <div class="h-4 w-4 text-green-400" style="transform: rotate(45deg);">
+                    <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15">
+                        </path>
+                    </svg>
+                </div>
+                <div class="text-black">{{ .Size }} (sq. ft.)</div>
+            </div>
+            <div class="flex items-center font-semibold">
+                <div class="text-green-400" style="transform: scale(70%);">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-bed-filled" width="44"
+                        height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path
+                            d="M3 6a1 1 0 0 1 .993 .883l.007 .117v6h6v-5a1 1 0 0 1 .883 -.993l.117 -.007h8a3 3 0 0 1 2.995 2.824l.005 .176v8a1 1 0 0 1 -1.993 .117l-.007 -.117v-3h-16v3a1 1 0 0 1 -1.993 .117l-.007 -.117v-11a1 1 0 0 1 1 -1z"
+                            stroke-width="0" fill="currentColor" />
+                        <path d="M7 8a2 2 0 1 1 -1.995 2.15l-.005 -.15l.005 -.15a2 2 0 0 1 1.995 -1.85z"
+                            stroke-width="0" fill="currentColor" />
+                    </svg>
+                </div>
+                <div class="text-black">{{ .Bedrooms }}</div>
+            </div>
+            <div class="flex items-center font-semibold">
+                <div class="text-green-400" style="transform: scale(55%);">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-bath-filled" width="44"
+                        height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path
+                            d="M11 2a1 1 0 0 1 .993 .883l.007 .117v2.25a1 1 0 0 1 -1.993 .117l-.007 -.117v-1.25h-2a1 1 0 0 0 -.993 .883l-.007 .117v6h13a2 2 0 0 1 1.995 1.85l.005 .15v3c0 1.475 -.638 2.8 -1.654 3.715l.486 .73a1 1 0 0 1 -1.594 1.203l-.07 -.093l-.55 -.823a4.98 4.98 0 0 1 -1.337 .26l-.281 .008h-10a4.994 4.994 0 0 1 -1.619 -.268l-.549 .823a1 1 0 0 1 -1.723 -1.009l.059 -.1l.486 -.73a4.987 4.987 0 0 1 -1.647 -3.457l-.007 -.259v-3a2 2 0 0 1 1.85 -1.995l.15 -.005h1v-6a3 3 0 0 1 2.824 -2.995l.176 -.005h3z"
+                            stroke-width="0" fill="currentColor" />
+                    </svg>
+                </div>
+                <div class="text-black">{{ .Bathrooms }}</div>
+            </div>
+        </div>
+        <div class="text-xl font-bold">
+            ₹ {{ .Price }} {{ .Denomination }}
+        </div>
+    </div>
+</div>
+{{ end }}
+
+{{ if not .PropertyThumbnails }}
+Nothing to show
+{{ else }}
+<div class="md:max-w-[800px] lg:max-w-[1200px] mx-5 md:mx-auto">
+    <div class="relative inline-block m-1 mb-4 text-2xl font-[500]">Resale <span
+            class="text-green-400">Properties</span>
+        <span class="absolute -bottom-1 left-0 w-16 h-1 bg-red-500 rounded-md"></span>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-4">
+        {{ range .PropertyThumbnails }}
+        {{ template "card" . }}
+        {{ end }}
+    </div>
+</div>
+{{ end }}

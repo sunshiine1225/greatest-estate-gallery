@@ -1,14 +1,18 @@
 {{ define "card" }}
 <div
-    class='relative rounded-md border border-gray-200 sm:max-w-sm overflow-clip shadow-md transition-all ease-out cursor-pointer bg-white hover:drop-shadow-lg'>
+    class='card relative rounded-md border border-gray-200 sm:max-w-sm overflow-clip shadow-md transition-all ease-out cursor-pointer bg-white hover:shadow-lg'>
     <div class='h-56 overflow-y-hidden'>
         <div style="box-shadow: inset 0px -40px 40px 0px rgba(0, 0, 0, 0.8); background-image: url({{ .ImageUrl }});"
-            class="w-full h-full relative bg-100% bg-center hover:bg-scale-105 transition-all">
-            <div class='text-white text-xl font-bold absolute bottom-0 m-4 tracking-wide'>₹{{
-                .LowerLimit.LowerLimitPrice }}{{
-                .LowerLimit.Denomination }} - ₹{{ .UpperLimit.UpperLimitPrice }}{{ .UpperLimit.Denomination }}
+            class="image w-full h-full relative bg-100% bg-center transition-all">
+            <div class='text-white text-xl font-bold absolute bottom-0 m-4 tracking-wide'>
+                ₹&nbsp;&nbsp;{{
+                .LowerLimit.LowerLimitPrice }} {{
+                .LowerLimit.Denomination }} -
+                {{ .UpperLimit.UpperLimitPrice }} {{
+                .UpperLimit.Denomination }}
             </div>
-            <div class="absolute font-[400] flex items-center text-sm bg-red-500 text-white py-1 px-2 top-3 left-3">
+            <div
+                class="absolute font-[400] flex items-center text-sm bg-red-500 text-white py-1 px-2 top-3 left-3 rounded-[1px]">
                 <svg fill="none" class="w-4 mr-1" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -17,7 +21,8 @@
                 </svg>
                 {{ .Type }}
             </div>
-            <div class="absolute font-[400] text-sm bg-green-400 text-white py-1 px-2 top-3 right-3">Ready To Move</div>
+            <div class="absolute font-[400] text-sm bg-green-400 text-white py-1 px-2 top-3 right-3 rounded-[1px]">Ready
+                To Move</div>
         </div>
     </div>
     <div class='p-4 border-gray-50 tracking-wide'>
@@ -38,12 +43,14 @@
 </div>
 {{ end }}
 
-{{ if not .PropertyThumbnails}}
+{{ if not .ProjectThumbnails }}
 Nothing to show
 {{ else }}
 <div class="md:max-w-[800px] lg:max-w-[1200px] mx-5 md:mx-auto">
-    <div class="inline-block m-1 mb-2 text-2xl border-b-4 border-red-600 font-[500]">Properties <span
-            class="text-green-400">Bengaluru</span></div>
+    <div class="relative inline-block m-1 mb-2 text-2xl font-[500]">Projects <span
+            class="text-green-400">Bengaluru</span>
+        <span class="absolute -bottom-1 left-0 w-16 h-1 bg-red-500 rounded-md"></span>
+    </div>
     <div class="flex justify-center w-full items-center space-x-2 mt-2 mb-4">
         <div
             class="px-3 py-2 text-white bg-red-500 border border-transparent rounded-md font-bold cursor-pointer transition">
@@ -56,9 +63,14 @@ Nothing to show
             Budget friendly</div>
     </div>
     <div class="grid sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-3  gap-x-2 gap-y-2">
-        {{ range .PropertyThumbnails }}
+        {{ range .ProjectThumbnails }}
         {{ template "card" . }}
         {{ end }}
+    </div>
+    <div class="flex justify-center w-full items-center space-x-2 my-3">
+        <div
+            class="px-3 py-2 text-white bg-red-500 border border-transparent rounded-md font-bold cursor-pointer transition hover:bg-green-500">
+            View More</div>
     </div>
 </div>
 {{ end }}

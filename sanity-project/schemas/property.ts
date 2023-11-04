@@ -21,60 +21,43 @@ export default {
 			],
 		}),
 		defineType({
+			type: 'object',
+			name: 'price',
+			title: 'Price',
+			fields: [
+				{type: 'number', name: 'price', title: 'Price'},
+				{
+					type: 'string',
+					name: 'denomination',
+					title: 'Denomination',
+					options: {
+						list: ['Cr', 'L'],
+					},
+				},
+			],
+		}),
+		defineType({
+			title: 'Num Bedrooms',
+			name: 'num_bedrooms',
+			type: 'number',
+		}),
+		defineType({
+			title: 'Num Bathrooms',
+			name: 'num_bathrooms',
+			type: 'number',
+		}),
+		defineType({
+			title: 'Size (sq. ft)',
+			name: 'size',
+			type: 'number',
+		}),
+		defineType({
+			title: 'Type',
 			name: 'type',
-			title: 'Property Type',
 			type: 'string',
 			options: {
-				list: [
-					'1 BHK',
-					'1-2 BHK',
-					'2 BHK',
-					'2-3 BHK',
-					'3 BHK',
-					'1-3 BHK',
-					'4 BHK',
-					'2-4 BHK',
-					'3-4 BHK',
-				],
-				layout: 'dropdown',
+				list: ['Duplex', 'Apartments'],
 			},
-		}),
-		defineType({
-			type: 'object',
-			name: 'lower_limit',
-			title: 'Lower Limit',
-			fields: [
-				{type: 'number', name: 'lower_limit_price', title: 'Lower Limit Price'},
-				{
-					type: 'string',
-					name: 'denomination',
-					title: 'Denomination',
-					options: {
-						list: ['Cr', 'L'],
-					},
-				},
-			],
-		}),
-		defineType({
-			type: 'object',
-			name: 'upper_limit',
-			title: 'Upper Limit',
-			fields: [
-				{type: 'number', name: 'upper_limit_price', title: 'Upper Limit Price'},
-				{
-					type: 'string',
-					name: 'denomination',
-					title: 'Denomination',
-					options: {
-						list: ['Cr', 'L'],
-					},
-				},
-			],
-		}),
-		defineType({
-			name: 'full_desc',
-			title: 'Description',
-			type: 'string',
 		}),
 		defineType({
 			name: 'location',

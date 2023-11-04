@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 
 <head>
     <title>Greatest Estate Developer</title>
@@ -27,9 +27,21 @@
 </head>
 
 <body class="bg-white">
-    <div hx-trigger="load" hx-get="/section/featured-container" hx-swap="outerHTML">
+    <div class="p-4 bg-black flex justify-center">
+       <div class="text-xl font-bold text-white">Greatest Estate Gallery</div> 
     </div>
-    {{ template "contact-form" . }}
+    <div style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(255,255,255,0)), url('/static/hero.png');" class="relative h-[600px] bg-100% bg-no-repeat flex flex-col justify-end items-center">
+        <a href="#form" class="text-black hover:text-white border-2  border-black hover:bg-black cursor-pointer px-3 py-2 rounded-md transition w-fit mb-24">Contact Us</a>
+    </div>
+    <div hx-trigger="load" hx-get="/section/featured-projects" hx-swap="outerHTML">
+    </div>
+    <div hx-trigger="load" hx-get="/section/resale-container" hx-swap="outerHTML">
+    </div>
+    <div hx-trigger="load" hx-get="/section/featured-plots" hx-swap="outerHTML">
+    </div>
+    <div style="background: linear-gradient(white, rgb(0,0,0,0.3));">
+        {{ template "contact-form" . }}
+    </div>
 </body>
 
 </html>
