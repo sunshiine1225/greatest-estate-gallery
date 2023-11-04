@@ -20,11 +20,9 @@ jobs:
       with:
         images: achyutakn/geg-app
     - name: generate tailwind css
-      uses: ZoeyVid/tailwindcss-update@main
+      uses: mikeal/npx@master
       with:
-        input: css/main.css
-        output: static/css/tailwind.css
-        params: "-c tailwind.config.js --minify"
+        args: "tailwindcss build -i css/main.css -o static/css/tailwind.css -c tailwind.config.js  --minify"
     - name: build and push
       uses: docker/build-push-action@v5
       with:
