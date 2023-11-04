@@ -1,0 +1,37 @@
+name: Publish Image to Dockerhub
+on:
+  release:
+    [published]
+jobs:
+  push_to_registry:
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout repository
+      uses: action/checkout@v4
+    - name: dockerhub login
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    - name: docker metadata
+      id: meta
+      uses: docker/metadata-action@v5
+      with:
+        images: achyutakn/geg-app
+    - name: generate tailwind css
+      uses: ZoeyVid/tailwindcss-update@main
+      with:
+        input: css/main.css
+        output: static/css/tailwind.css
+        params: "-c tailwind.config.js --minify"
+    - name: build and push
+      uses: docker/build-push-action@v5
+      with:
+        push: true
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
+          
+          
+      
+    
+  
