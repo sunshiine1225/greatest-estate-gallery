@@ -5,13 +5,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"html/template"
-	"log"
 	"net/http"
 	"net/url"
 	"os"
 
 	"github.com/gorilla/mux"
-	"github.com/joho/godotenv"
 )
 
 type SanityResult struct {
@@ -26,11 +24,6 @@ var (
 )
 
 func init() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
-
 	SANITY_PROJECT_ID = os.Getenv("SANITY_PROJECT_ID")
 	DATASET = os.Getenv("SANITY_DATASET")
 	SANITY_AUTH_TOKEN = os.Getenv("SANITY_AUTH_TOKEN")
