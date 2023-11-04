@@ -21,8 +21,7 @@ jobs:
         images: achyutakn/geg-app
     - name: generate tailwind css
       uses: mikeal/npx@master
-      with:
-        args: "tailwindcss build -i css/main.css -o static/css/tailwind.css -c tailwind.config.js  --minify"
+      args: "tailwindcss build -i css/main.css -o static/css/tailwind.css -c tailwind.config.js  --minify"
     - name: build and push
       uses: docker/build-push-action@v5
       with:
