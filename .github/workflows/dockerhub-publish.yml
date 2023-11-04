@@ -19,9 +19,12 @@ jobs:
       uses: docker/metadata-action@v5
       with:
         images: achyutakn/geg-app
-    - name: generate tailwind css
-      uses: mikeal/npx@master
-      args: "tailwindcss build -i css/main.css -o static/css/tailwind.css -c tailwind.config.js  --minify"
+    - name: setup node
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16
+    - name: npx build tailwindcss
+      run: npx tailwindcss build -i css/main.css -o static/css/tailwind.css -c tailwind.config.js  --minify
     - name: build and push
       uses: docker/build-push-action@v5
       with:
