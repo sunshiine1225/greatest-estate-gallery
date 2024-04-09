@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .card:hover .image {
-    background-size: 23325%;
+    background-size: 2%;
     transition: background-size;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 0.7s;
